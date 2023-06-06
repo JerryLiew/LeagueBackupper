@@ -15,10 +15,10 @@ public partial class BackupOptions : BaseOptions
         HelpText = "The game folder which contains game client you want to backup.")]
     public required string GameFolder { get; set; }
 
-    [Option("patch-folder", Required = true, HelpText = "The folder for storage patch.")]
+    [Option("patch-folder", Required = false, HelpText = "The folder for storage patch.")]
     public required string PatchFolder { get; set; }
 
-    [Option("backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
+    [Option('b',"backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
     public required string BackupFolder { get; set; }
 }
 

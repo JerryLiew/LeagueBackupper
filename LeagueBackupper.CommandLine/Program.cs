@@ -9,24 +9,44 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File("info.log",LogEventLevel.Information)
-    .WriteTo.File("err.log",LogEventLevel.Error)
+    .WriteTo.File("info2.log",LogEventLevel.Information)
+    .WriteTo.File("err2.log",LogEventLevel.Error)
     .CreateLogger();
 LeagueBackupper.Core.Core.SetLogger(s => Log.Information(s), s => Log.Warning(s), s => Log.Error(s));
 // Test.MyStreamTest();
 // Test.Export();
+foreach (var s in args)
+{
+    Console.WriteLine(s);
+}
 Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
     .MapResult(
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
-        errs => 1);
+        errs =>
+        {
+            Console.WriteLine("wosile");
+            return 1;
+        });
 
 static int Backup(BackupOptions options)
 {
-    PatchBackupPipelineBuilder
-        builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.BackupFolder);
-    var backupPipeline = builder.Build();
-    backupPipeline.Backup();
+    Console.WriteLine("nmsile");
+    try
+    {
+        Console.WriteLine("nmsile");
+        PatchBackupPipelineBuilder
+            builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.BackupFolder);
+        var backupPipeline = builder.Build();
+        backupPipeline.Backup();
+
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+        Log.Error(e.Message);
+        return 0;
+    }
 
     /*//not use cfg file.
         ClientDataProvider clientDataProvider =
