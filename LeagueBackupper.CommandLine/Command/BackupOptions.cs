@@ -28,22 +28,22 @@ public class ExtractOptions : BaseOptions
     [Option('v', "patch-version", Required = true, HelpText = "Give a patch version to extract.")]
     public required string PatchVersion { get; set; }
 
-    [Option("patch-folder", Required = true, HelpText = "The folder for storage patch.")]
+    [Option("patch-folder", Required = false, HelpText = "The folder for storage patch.")]
     public required string PatchFolder { get; set; }
 
-    [Option("backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
+    [Option('b',"backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
     public required string PatchBackupStorageFolder { get; set; }
 
-    [Option('o', "output-folder", Required = true, HelpText = "The folder for extract to.")]
+    [Option('o', "output-folder", Required = false, HelpText = "The folder for extract to.")]
     public required string OutputFolder { get; set; }
 
-    [Option( "multidb-file", Required = true, HelpText = "The multi-data block files description file. ")]
+    [Option( "multidb-file", Required = false, HelpText = "The multi-data block files description file. ")]
     public required string MultiDbFile { get; set; }
     
-    [Option("validate", HelpText = "Indicate that current extraction operation is for validating patch.")]
+    [Option("validate-only", HelpText = "Indicate that current extraction operation is for validating patch.")]
     public bool ValidateOnly { get; set; } = false;
 
-    [Option('z', longName: "zip-file", Required = true,
+    [Option('z', longName: "zip-file", Required = false,
         HelpText = "Specify the zip file/folder to provide data block read stream.")]
     public required IEnumerable<string> DataBlockZipFiles { get; set; }
 

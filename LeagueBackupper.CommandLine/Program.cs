@@ -25,16 +25,13 @@ Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
         (ExtractOptions opts) => Extract(opts),
         errs =>
         {
-            Console.WriteLine("wosile");
             return 1;
         });
 
 static int Backup(BackupOptions options)
 {
-    Console.WriteLine("nmsile");
     try
     {
-        Console.WriteLine("nmsile");
         PatchBackupPipelineBuilder
             builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.BackupFolder);
         var backupPipeline = builder.Build();
