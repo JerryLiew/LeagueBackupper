@@ -7,43 +7,43 @@ namespace LeagueBackupper.Core;
 
 public class PatchExtractPipeline : IPatchExtractPipeline
 {
-    private readonly PatchManager _patchManager;
-    private readonly PatchDataProvider _patchDataProvider;
-    private readonly ExtractedPatchDataProcessor _extractedPatchDataProcessor;
+    public  PatchManager PatchManager{get; private set;}
+    public  PatchDataProvider PatchDataProvider{get; private set;}
+    public  ExtractedPatchDataProcessor ExtractedPatchDataProcessor{get; private set;}
     private Stopwatch _timeCounter = new Stopwatch();
 
     public PatchExtractPipeline(PatchDataProvider patchDataProvider, PatchManager patchManager,
         ExtractedPatchDataProcessor extractedPatchDataProcessor)
     {
-        _patchDataProvider = patchDataProvider;
-        _patchManager = patchManager;
-        _extractedPatchDataProcessor = extractedPatchDataProcessor;
+        PatchDataProvider = patchDataProvider;
+        PatchManager = patchManager;
+        ExtractedPatchDataProcessor = extractedPatchDataProcessor;
     }
 
     public void Extract(string clientVersion)
     {
         Log.Info($"Start extract. version:{clientVersion}");
         _timeCounter.Start();
-        var containsVersion = _patchManager.ContainsPatch(clientVersion);
+        var containsVersion = PatchManager.ContainsPatch(clientVersion);
         if (!containsVersion)
         {
             throw new PatchNotFoundException(
                 $"The clientVersion:{clientVersion} does not exists in version manager.");
         }
 
-        PatchInfo patchInfo = _patchManager.GetPatchInfo(clientVersion);
-        _extractedPatchDataProcessor.Init(patchInfo);
-        _patchDataProvider.Init(patchInfo);
+        PatchInfo patchInfo = PatchManager.GetPatchInfo(clientVersion);
+        ExtractedPatchDataProcessor.Init(patchInfo);
+        PatchDataProvider.Init(patchInfo);
 
         var versionFiles = patchInfo.PatchFiles;
         foreach (var vf in versionFiles)
         {
             Log.Info($"extracting:{vf.Filename} length:{vf.Length}");
-            using Stream stream = _patchDataProvider.ResolvePatchFileStream(vf);
-            _extractedPatchDataProcessor.ProcessPatchFileStream(vf, stream);
+            using Stream stream = PatchDataProvider.ResolvePatchFileStream(vf);
+            ExtractedPatchDataProcessor.ProcessPatchFileStream(vf, stream);
         }
 
-        _extractedPatchDataProcessor.Complete();
+        ExtractedPatchDataProcessor.Complete();
         TimeSpan timeCounterElapsed = _timeCounter.Elapsed;
         Log.Info($"Extract Finished.TimeCost:{_timeCounter.Elapsed:mm\\mss\\s}");
     }

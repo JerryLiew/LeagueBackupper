@@ -35,6 +35,7 @@ public class DefaultPathDataStorager : PatchFileDataStorager
     public override void Init(PatchInfo patchInfo)
     {
         _curPatchInfo = patchInfo;
+        _chunkExistChecker.Init(patchInfo);
         _chunkDataStorager.Init(patchInfo.PatchVersion);
         _fileInfos = new();
     }

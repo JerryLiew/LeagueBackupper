@@ -20,7 +20,8 @@ public class DefaultPatchDataProvider : PatchDataProvider
     public override void Init(PatchInfo patchInfo)
     {
         var temp = _patchMultiChunkFileInfoManager.Get(patchInfo.PatchVersion);
-        _multiChunkFileInfos = temp.ToDictionary(info => info.FileHash, info => info);
+        IEnumerable<MultiChunkFileInfo> multiChunkFileInfos = temp.DistinctBy(info => info.FileHash);
+        _multiChunkFileInfos = multiChunkFileInfos.ToDictionary(info => info.FileHash, info => info);
         _chunkDataProvider.Init(patchInfo.PatchVersion);
     }
 

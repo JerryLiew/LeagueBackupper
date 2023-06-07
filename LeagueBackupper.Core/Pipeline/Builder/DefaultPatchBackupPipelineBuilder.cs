@@ -29,7 +29,7 @@ public class DefaultPatchBackupPipelineBuilder : PatchBackupPipelineBuilder
             new GameFolderClientDataProvider(_gameClientFolder, new DefaultClientFileFilter());
         PatchManager patchManager = new JsonPatchManager(_patchInfoFolder);
         ChunkDataStorager chunkDataStorager = new ZipChunkDataStorager(_patchDataFolder);
-        ChunkExistChecker chunkExistChecker = new ZippedDataBlockChecker();
+        ChunkExistChecker chunkExistChecker = new ZippedDataBlockChecker().WithZipFilesFolder(_patchDataFolder);
         PatchMultiChunkFileInfoManager patchMultiChunkFileInfoManager =
             new JsonPatchMultiChunkFileInfoManager(_multiChunkFileInfoFolder);
         PatchFileDataStorager dataStorager = new DefaultPathDataStorager(

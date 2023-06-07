@@ -1,5 +1,6 @@
 ﻿using LeagueBackupper.Core.ClientData;
 using LeagueBackupper.Core.DataBlock;
+using LeagueBackupper.Core.Extract;
 using LeagueBackupper.Core.MultiChunkFile;
 using LeagueBackupper.Core.MultiChunkFileDataStorage;
 using LeagueBackupper.Core.MultiChunkFileDataStorage.DataBlock;
@@ -39,7 +40,7 @@ public class DefaultPatchExtractPipelineBuilder : PatchExtractPipelineBuilder
         ExtractedPatchDataProcessor extractedPatchDataProcessor = null!;
         if (_validateOnly)
         {
-            extractedPatchDataProcessor = new ClientDataValidator();
+            extractedPatchDataProcessor = new ExtractedDataValidator();
         }
         else
         {
