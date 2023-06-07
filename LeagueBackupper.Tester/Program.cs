@@ -6,7 +6,7 @@ using Serilog.Events;
 
 internal class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
@@ -15,16 +15,20 @@ internal class Program
             .WriteTo.File("info.log", LogEventLevel.Information)
             .WriteTo.File("err.log", LogEventLevel.Error)
             .CreateLogger();
-        Parser.Default.ParseArguments<ValidateOptions>(args)
-            .MapResult(
-                Validate,
-                errs => 1);
+        var parserResult = Parser.Default.ParseArguments<ValidateOptions>(args);
+        await parserResult.MapResult(
+            async (ValidateOptions o) =>
+            {
+                var validate = await Validate(o);
+                return validate;
+            },
+            errs => Task.FromResult(1));
     }
 
-    static int Validate(ValidateOptions options)
+    static Task<int> Validate(ValidateOptions options)
     {
         CommandLineTester tester = new CommandLineTester();
         tester.Run(options);
-        return 0;
+        return Task.FromResult(0);
     }
 }

@@ -49,10 +49,6 @@ public class CommandLineTester
         var deserializer = builder.Build();
         Cfg = deserializer.Deserialize<CommandLineTesterCfg>(readAllText);
          Backup();
-         while (true)
-         {
-             Thread.Sleep(1);
-         }
     }
 
     public async void  Backup()
