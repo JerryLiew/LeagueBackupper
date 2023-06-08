@@ -80,7 +80,7 @@ public class CommandLineTester
         {
             clientsFolder = ShuffleList(clientsFolder);
         }
-
+        
         List<string> versions = new List<string>();
         foreach (var cf in clientsFolder)
         {

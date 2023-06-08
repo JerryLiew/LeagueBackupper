@@ -3,9 +3,9 @@ using LeagueBackupper.Common.Utils;
 using LeagueBackupper.Core.Pipeline;
 using LeagueBackupper.Core.Structure;
 
-namespace LeagueBackupper.Core.PatchOutput;
+namespace LeagueBackupper.Core.Extract;
 
-public class ClientDataValidator : ExtractedPatchDataProcessor
+public class ExtractedDataValidator : ExtractedPatchDataProcessor
 {
     private MD5 _md5 = null!;
     private List<PatchFileInfo> _verifyFailedResult = null!;
