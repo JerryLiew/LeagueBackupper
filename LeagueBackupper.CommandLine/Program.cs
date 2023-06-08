@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.Diagnostics.CodeAnalysis;
+using CommandLine;
 using LeagueBackupper.CommandLine.Command;
 using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
@@ -27,7 +28,8 @@ Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
         errs => { return 1; });
-
+[DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
+[DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
 static int Backup(BackupOptions options)
 {
     try
