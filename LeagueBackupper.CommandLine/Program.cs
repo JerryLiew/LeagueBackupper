@@ -3,7 +3,6 @@ using CommandLine;
 using LeagueBackupper.CommandLine.Command;
 using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
-using LeagueBackupper.Core.PatchOutput;
 using LeagueBackupper.Core.Pipeline;
 using Serilog;
 using Serilog.Events;
@@ -23,11 +22,11 @@ foreach (var s in args)
     Console.WriteLine(s);
 }
 
-Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
+return Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
     .MapResult(
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
-        errs => { return 1; });
+        errs => 1);
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
 static int Backup(BackupOptions options)
