@@ -51,7 +51,9 @@ public class JsonPatchManager : PatchManager
 
     public override void RecordPatch(PatchInfo version)
     {
+        Log.Err("序列化");
         string versionJson = SerializeLeagueVersion(version);
+        Log.Err($"序列化结果{versionJson}");
         File.WriteAllText(Path.Combine(_patchStorageFolder, version.PatchVersion + ".json"), versionJson);
     }
 

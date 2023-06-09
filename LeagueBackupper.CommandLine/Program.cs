@@ -4,6 +4,7 @@ using LeagueBackupper.CommandLine.Command;
 using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
 using LeagueBackupper.Core.Pipeline;
+using LeagueBackupper.Core.Structure;
 using Serilog;
 using Serilog.Events;
 
@@ -29,6 +30,8 @@ return Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
         errs => 1);
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
+[DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(PatchInfo))]
+[DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(PatchFileInfo))]
 static int Backup(BackupOptions options)
 {
     try

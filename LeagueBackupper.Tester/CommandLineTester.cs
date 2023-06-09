@@ -80,7 +80,7 @@ public class CommandLineTester
         {
             clientsFolder = ShuffleList(clientsFolder);
         }
-        
+
         List<string> versions = new List<string>();
         foreach (var cf in clientsFolder)
         {
@@ -150,6 +150,7 @@ public class CommandLineTester
                 })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(s => { Log.Debug(s); }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(s => Log.Error(s)))
+            .WithValidation(CommandResultValidation.None)
             .WithStandardOutputPipe(PipeTarget.ToStringBuilder(builder))
             .ExecuteAsync().GetAwaiter().GetResult();
         // Console.WriteLine(builder.ToString());
@@ -186,7 +187,9 @@ public class CommandLineTester
             .WithStandardOutputPipe(PipeTarget.ToDelegate(s => { Log.Debug(s); }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(s => Log.Error(s)))
             .WithStandardOutputPipe(PipeTarget.ToStringBuilder(builder))
-            .ExecuteAsync().GetAwaiter().GetResult();
+            .WithValidation(CommandResultValidation.None)
+            .ExecuteAsync()
+            .GetAwaiter().GetResult();
         // Console.WriteLine(builder.ToString());
 
         return result.ExitCode;
