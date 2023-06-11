@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+<!--    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">-->
+<!--      <PlatformTarget>ARM</PlatformTarget>-->
+<!--    </PropertyGroup>-->
+
+<!--    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">-->
+<!--      <PlatformTarget>ARM</PlatformTarget>-->
+<!--    </PropertyGroup>-->
+
+    <ItemGroup>
+      <ProjectReference Include="..\LeagueBackupper.Common\LeagueBackupper.Common.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="LeagueToolkit.dll">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+      <None Update="LeagueToolkit.xml">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="LeagueToolkit">
+        <HintPath>LeagueToolkit.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SubstreamSharp" Version="1.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="PatchDataStorage\" />
+      <Folder Include="PatchManager\" />
+    </ItemGroup>
+
+</Project>
