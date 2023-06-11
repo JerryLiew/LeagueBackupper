@@ -55,7 +55,6 @@ public class PatchBackupPipeline
             _patchFileDataStorager.WritePatchFile(vf, fileStream);
         }
 
-        Log.Err("咋了草拟吗");
         _patchFileDataStorager.Complete();
         _patchManager.RecordPatch(patchInfo);
 
