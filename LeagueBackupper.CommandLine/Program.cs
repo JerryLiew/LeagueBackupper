@@ -5,8 +5,6 @@ using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
 using LeagueBackupper.Core.Pipeline;
 using Serilog;
-using Serilog.Context;
-using Serilog.Events;
 
 LoggerConfiguration logger = new LoggerConfiguration()
         .MinimumLevel.Information()

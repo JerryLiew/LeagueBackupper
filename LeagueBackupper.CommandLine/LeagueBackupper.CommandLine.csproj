@@ -10,7 +10,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <Ver>1.0.1</Ver>
+        <Ver>1.1.0</Ver>
 
         <!--        <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>-->
         <!--        <AssemblyVersion>1.0.0</AssemblyVersion>-->
