@@ -71,3 +71,6 @@ the same as extract game client  but it will not extract the file, but only veri
 
 - [LeagueTookit](https://github.com/LeagueToolkit/LeagueToolkit)   LeagueToolkit is a library for parsing and editing assets from League of Legends.In my project i use it to parse wad files of lol game client
 
+## NOTE:
+
+This software has been tested in approximately 20 game versions, but there is still no guarantee that in future new versions, the backup will fail due to changes made by RIOT Game . Therefore, after backing up your game client files, please do not delete the original files first. Please execute the Validate command or test yourself before deleting the original files
