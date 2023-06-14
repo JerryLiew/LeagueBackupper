@@ -5,18 +5,22 @@ using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
 using LeagueBackupper.Core.Pipeline;
 using Serilog;
-using Serilog.Events;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.File("info2.log", LogEventLevel.Information)
-    .WriteTo.File("err2.log", LogEventLevel.Error)
-    .CreateLogger();
-LeagueBackupper.Core.Core.SetLogger(s => Log.Information(s), s => Log.Warning(s), s => Log.Error(s));
+LoggerConfiguration logger = new LoggerConfiguration()
+        .MinimumLevel.Information()
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+    ;
+// Log.Logger = new LoggerConfiguration()
+//     .MinimumLevel.Information()
+//     .Enrich.FromLogContext()
+//     .WriteTo.Console()
+//     // .WriteTo.File("logs/info.log", LogEventLevel.Information)
+//     // .WriteTo.File("logs/err.log", LogEventLevel.Error)
+//     .CreateLogger();
 // Test.MyStreamTest();
-// Test.Export();
+// Test.Export();\
+
 foreach (var s in args)
 {
     Console.WriteLine(s);
@@ -27,15 +31,22 @@ return Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
         errs => 1);
+
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
-static int Backup(BackupOptions options)
+int Backup(BackupOptions options)
 {
     try
     {
         PatchBackupPipelineBuilder
             builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.BackupFolder);
         var backupPipeline = builder.Build();
+        backupPipeline.ClientVersionFetched += s =>
+        {
+            Log.Logger =
+                logger.WriteTo.File($"logs/backup_{s}.log").CreateLogger();
+            LeagueBackupper.Core.Core.SetLogger(Log.Information, Log.Warning, Log.Error);
+        };
         backupPipeline.Backup();
     }
     catch (Exception e)
@@ -60,7 +71,7 @@ static int Backup(BackupOptions options)
     return 0;
 }
 
-static int Extract(ExtractOptions options)
+int Extract(ExtractOptions options)
 {
     PatchExtractPipelineBuilder builder = new DefaultPatchExtractPipelineBuilder(
         options.PatchBackupStorageFolder,
@@ -70,6 +81,11 @@ static int Extract(ExtractOptions options)
     PatchExtractPipeline pipeline = builder.Build();
     try
     {
+        var logPrefix = options.ValidateOnly ? "validate" : "extract";
+        Log.Logger =
+            logger.WriteTo.File($"logs/{logPrefix}_{options.PatchVersion}.log")
+                .CreateLogger();
+        LeagueBackupper.Core.Core.SetLogger(Log.Information, Log.Warning, Log.Error);
         pipeline.Extract(options.PatchVersion);
         if (options.ValidateOnly)
         {

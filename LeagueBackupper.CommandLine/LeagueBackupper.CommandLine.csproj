@@ -10,7 +10,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <Ver>1.0.0</Ver>
+        <Ver>1.1.0</Ver>
 
         <!--        <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>-->
         <!--        <AssemblyVersion>1.0.0</AssemblyVersion>-->
@@ -36,18 +36,25 @@
     <!--    </PropertyGroup>-->
 
     <ItemGroup>
-        <ProjectReference Include="..\LeagueBackupper.Core\LeagueBackupper.Core.csproj"/>
+        <ProjectReference Include="..\LeagueBackupper.Core\LeagueBackupper.Core.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.9.1"/>
-        <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.0-preview2"/>
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
+        <PackageReference Include="CommandLineParser" Version="2.9.1" />
+        <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.0-preview2" />
+        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="Test.cs"/>
+        <TrimmerRootAssembly Include="LeagueBackupper.CommandLine" />
+        <TrimmerRootAssembly Include="LeagueBackupper.Core" />
+    </ItemGroup>
+    
+    
+    <ItemGroup>
+        <Compile Remove="Test.cs" />
     </ItemGroup>
 
 </Project>

@@ -8,6 +8,7 @@ namespace LeagueBackupper.Core;
 
 public class PatchBackupPipeline
 {
+    public event Action<string> ClientVersionFetched;
     private readonly ClientDataProvider _clientDataProvider;
     private readonly PatchManager _patchManager;
     private readonly PatchFileDataStorager _patchFileDataStorager;
@@ -28,6 +29,7 @@ public class PatchBackupPipeline
         Log.Info("Start backup.");
         _timeCounter.Start();
         var clientVersion = _clientDataProvider.GetClientVersion();
+        ClientVersionFetched(clientVersion);
         Log.Info($"Client Version:{clientVersion}");
         bool exists = _patchManager.ContainsPatch(clientVersion);
         if (exists)
