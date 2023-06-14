@@ -20,9 +20,9 @@ public class DefaultPatchExtractPipelineBuilder : PatchExtractPipelineBuilder
     public DefaultPatchExtractPipelineBuilder(string backupStorageFolder, string dst, bool validateOnly = false)
     {
         dstFolder = dst;
-        _patchInfoFolder = Path.Combine(backupStorageFolder, "Patches");
-        _chunkDataFolder = Path.Combine(backupStorageFolder, "Data");
-        _multiChunkFileInfoFolder = Path.Combine(backupStorageFolder, "MultiChunkFileInfo");
+        _patchInfoFolder = Path.Combine(backupStorageFolder, "patches");
+        _chunkDataFolder = Path.Combine(backupStorageFolder, "data");
+        _multiChunkFileInfoFolder = Path.Combine(backupStorageFolder, "chunksinfo");
         _validateOnly = validateOnly;
     }
 

@@ -18,9 +18,9 @@ public class DefaultPatchBackupPipelineBuilder : PatchBackupPipelineBuilder
     {
         _gameClientFolder = gameClientFolder;
         _backupStorageFolder = backupStorageFolder;
-        _patchInfoFolder = Path.Combine(backupStorageFolder, "Patches");
-        _patchDataFolder = Path.Combine(backupStorageFolder, "Data");
-        _multiChunkFileInfoFolder = Path.Combine(backupStorageFolder, "MultiChunkFileInfo");
+        _patchInfoFolder = Path.Combine(backupStorageFolder, "patches");
+        _patchDataFolder = Path.Combine(backupStorageFolder, "data");
+        _multiChunkFileInfoFolder = Path.Combine(backupStorageFolder, "chunksinfo");
     }
 
     public override PatchBackupPipeline Build()
