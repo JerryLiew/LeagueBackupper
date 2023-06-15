@@ -73,4 +73,4 @@ the same as extract game client  but it will not extract the file, but only veri
 
 ## NOTE:
 
-This software has been tested in approximately 20 game versions, but there is still no guarantee that in future new versions, the backup will fail due to changes made by RIOT Game . Therefore, after backing up your game client files, please do not delete the original files first. Please execute the Validate command or test yourself before deleting the original files
+This software has been tested in many game versions, but there is still no guarantee that in future new versions, the backup will fail due to changes made by RIOT Game . Therefore, after backing up your game client files, please do not delete the original files first. Please execute the Validate command or test yourself before deleting the original files
