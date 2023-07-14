@@ -38,8 +38,9 @@ int Backup(BackupOptions options)
 {
     try
     {
+        Shared.LoadRepoInfo(options.RepoFolder);
         PatchBackupPipelineBuilder
-            builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.BackupFolder);
+            builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.RepoFolder);
         var backupPipeline = builder.Build();
         backupPipeline.ClientVersionFetched += s =>
         {

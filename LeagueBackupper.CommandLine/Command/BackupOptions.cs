@@ -15,11 +15,11 @@ public partial class BackupOptions : BaseOptions
         HelpText = "The game folder which contains game client you want to backup.")]
     public required string GameFolder { get; set; }
 
-    // [Option("patch-folder", Required = false, HelpText = "The folder for storage patch.")]
+    // [Option("patch-folder", Required = false, HelpText = "The folder for storing patch.")]
     // public required string PatchFolder { get; set; }
 
-    [Option('b',"backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
-    public required string BackupFolder { get; set; }
+    [Option('r',"repo-folder", Required = true, HelpText = "The folder for storing all backup data.")]
+    public required string RepoFolder { get; set; }
 }
 
 [Verb("extract", HelpText = "extract a league client patch.")]
@@ -31,7 +31,7 @@ public class ExtractOptions : BaseOptions
     // [Option("patch-folder", Required = false, HelpText = "The folder for storage patch.")]
     // public required string PatchFolder { get; set; }
 
-    [Option('b',"backup-storage-folder", Required = true, HelpText = "The folder for storage all backup data.")]
+    [Option('r',"repo-folder", Required = true, HelpText = "The folder for stori                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 b4444444444444444444444444430+ng all backup data.")]
     public required string PatchBackupStorageFolder { get; set; }
 
     [Option('o', "output-folder", Required = false, HelpText = "The folder for extract to.")]

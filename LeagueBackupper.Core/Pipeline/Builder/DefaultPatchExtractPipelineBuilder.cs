@@ -15,7 +15,7 @@ public class DefaultPatchExtractPipelineBuilder : PatchExtractPipelineBuilder
     private string _chunkDataFolder;
     private string _multiChunkFileInfoFolder;
     private bool _validateOnly = false;
-
+    
 
     public DefaultPatchExtractPipelineBuilder(string backupStorageFolder, string dst, bool validateOnly = false)
     {
