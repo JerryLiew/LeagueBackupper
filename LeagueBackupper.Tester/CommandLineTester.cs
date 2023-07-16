@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using CliWrap;
@@ -15,7 +16,7 @@ public class CommandLineTesterCfg
 
     public string CommandLineExePath { get; set; }
 
-    public string RepositoyPath { get; set; }
+    public string RepositoryPath { get; set; }
 
     public bool ProcessRandomly { get; set; } = false;
 
@@ -44,7 +45,7 @@ public class CommandLineTester
         CommandLineTesterCfg cfg = new CommandLineTesterCfg();
         cfg.CommandLineExePath = $"D:/{nameof(cfg.CommandLineExePath)}";
         cfg.ClientFolders = new() { "C:/folder1", "C:/folder2", "C:/folder3" };
-        cfg.RepositoyPath = "D:/repositoryPath";
+        cfg.RepositoryPath = "D:/repositoryPath";
         SerializerBuilder builder = new SerializerBuilder();
         ISerializer serializer = builder.Build();
         var serialize = serializer.Serialize(cfg);
@@ -68,6 +69,7 @@ public class CommandLineTester
         return result;
     }
 
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidateOptions))]
 
     public void Run(ValidateOptions cfg)
     {
@@ -88,7 +90,7 @@ public class CommandLineTester
             string exeFilename = Path.Combine(cf, "League of Legends.exe");
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(exeFilename);
             versions.Add(version.ProductVersion!);
-            int backup = Backup(Cfg.CommandLineExePath, cf, Cfg.RepositoyPath);
+            int backup = Backup(Cfg.CommandLineExePath, cf, Cfg.RepositoryPath);
             if (backup == 0)
             {
                 ValidateOutput.Ok($"backup:{cf}");
@@ -100,7 +102,7 @@ public class CommandLineTester
 
             if (Cfg.ValidateOne)
             {
-                int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoyPath, version.ProductVersion);
+                int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoryPath, version.ProductVersion);
                 if (validateResult == 0)
                 {
                     ValidateOutput.Ok($"validate-one:{version.ProductVersion}");
@@ -118,7 +120,7 @@ public class CommandLineTester
         {
             foreach (var ver in versions)
             {
-                int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoyPath, ver);
+                int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoryPath, ver);
                 if (validateResult == 0)
                 {
                     ValidateOutput.Ok($"validate-all:{ver}");
@@ -146,7 +148,7 @@ public class CommandLineTester
                 {
                     "backup",
                     "-g", $"{clientFolder}",
-                    "-b", $"{repo}"
+                    "-r", $"{repo}"
                 })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(s => { Log.Debug(s); }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(s => Log.Error(s)))
@@ -180,7 +182,7 @@ public class CommandLineTester
                 {
                     "extract",
                     "-v", $"{version}",
-                    "-b", $"{repo}",
+                    "-r", $"{repo}",
                     "--validate-only",
                 })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(s => { Log.Debug(s); }))

@@ -1,5 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Text.Json;
 using CommandLine;
+using LeagueBackupper.CommandLine;
 using LeagueBackupper.CommandLine.Command;
 using LeagueBackupper.Core;
 using LeagueBackupper.Core.Extract;
@@ -26,10 +29,21 @@ foreach (var s in args)
     Console.WriteLine(s);
 }
 
-return Parser.Default.ParseArguments<BackupOptions, ExtractOptions>(args)
+// Shared.RepoInfo = new RepoInfo();
+// Shared.RepoInfo.Version = "1.0.0.0";
+// Shared.RepoInfo.PatcheVersions = new List<string>();
+// Shared.RepoInfo.PatcheVersions.Add("12.23.45.456");
+// Shared.RepoInfo.PatcheVersions.Add("12.23.15.456");
+// Shared.RepoInfo.PatcheVersions.Add("12.23.5t5.456");
+// Shared.RepoInfo.PatcheVersions.Add("12.23.467.456");
+// Shared.SaveRepoInfo();
+
+return Parser.Default.ParseArguments<BackupOptions, ExtractOptions, UpdateCheckOption>(args)
     .MapResult(
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
+        (UpdateCheckOption opts) => UpdateCheck(opts),
+        (RepoUpdateOption opts) => UpdateRepoVersion(opts),
         errs => 1);
 
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
@@ -38,6 +52,15 @@ int Backup(BackupOptions options)
 {
     try
     {
+        var infoFile = Path.Join(options.RepoFolder, "info.json");
+        if (!File.Exists(infoFile))
+        {
+            RepoInfo repoInfo = new RepoInfo();
+            repoInfo.Version = RepoUpdater.GetCurVersion().ToString();
+            string serialize = JsonSerializer.Serialize(repoInfo);
+            File.WriteAllText(infoFile, serialize);
+        }
+
         Shared.LoadRepoInfo(options.RepoFolder);
         PatchBackupPipelineBuilder
             builder = new DefaultPatchBackupPipelineBuilder(options.GameFolder, options.RepoFolder);
@@ -75,7 +98,7 @@ int Backup(BackupOptions options)
 int Extract(ExtractOptions options)
 {
     PatchExtractPipelineBuilder builder = new DefaultPatchExtractPipelineBuilder(
-        options.PatchBackupStorageFolder,
+        options.RepoFolder,
         options.OutputFolder,
         options.ValidateOnly
     );
@@ -101,4 +124,36 @@ int Extract(ExtractOptions options)
         Log.Error(e.ToString());
         return 1;
     }
+}
+
+static int UpdateCheck(UpdateCheckOption opt)
+{
+    string outputMsg = string.Empty;
+    if (!Path.Exists(opt.RepoFolder))
+    {
+        throw new DirectoryNotFoundException(opt.RepoFolder);
+    }
+
+    RepoUpdater updater = new RepoUpdater(opt.RepoFolder);
+    Version repoVersion = updater.GetRepoVersion();
+    Version latestVersion = RepoUpdater.GetCurVersion();
+    outputMsg = $"repo ver:{repoVersion} latest ver:{latestVersion}";
+    Console.WriteLine(outputMsg);
+    return 0;
+}
+
+static int UpdateRepoVersion(RepoUpdateOption opts)
+{
+    RepoUpdater updater = new RepoUpdater(opts.RepoFolder);
+    Version dst = new Version(opts.DstVersion);
+    Version curVer = updater.GetRepoVersion();
+    bool updateResult = updater.Update(RepoUpdater.GetCurVersion());
+    if (updateResult)
+    {
+        Console.WriteLine("Repository update success.");
+        return 0;
+    }
+
+    Console.WriteLine("Repository update failed.");
+    return 1;
 }

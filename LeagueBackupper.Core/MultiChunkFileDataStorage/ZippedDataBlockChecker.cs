@@ -53,6 +53,11 @@ public class ZippedDataBlockChecker : ChunkExistChecker
         return _hashSet.Contains(hash);
     }
 
+    public void GenerateTypeSystem(string l789456123654987841258963)
+    {
+        
+    }
+    
     public override void Add(ChunkInfoCacheData info)
     {
         _hashSet.Add(info.ChunkHash);

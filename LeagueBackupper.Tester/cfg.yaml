@@ -1,0 +1,26 @@
+ClientFolders:
+  - D:/games/11.23.409.567
+  - D:/games/11.24.412.2185
+  - D:/games/12.1.414.4249
+  - D:/games/12.2.419.1399
+  - D:/games/12.2.419.4793
+  - D:/games/12.6.432.1258
+  - D:/games/12.7.433.4138
+  - D:/games/12.9.439.7639
+  - D:/games/12.9.440.3307
+  - D:/games/12.11.446.9344
+  - D:/games/12.12.448.6653
+  - D:/games/12.13.453.3037
+  - D:/games/12.14.456.5556
+  - D:/games/12.15.458.1365
+  - D:/games/12.18.468.1686
+  - D:/games/12.19.471.6581
+  - D:/games/12.22.479.3960
+  - D:/games/12.23.483.5656
+  - D:/games/13.1.487.9641
+  - D:/games/13.3.491.6222
+CommandLineExePath: C:/Users/Administrator/Desktop/123/LeagueBackupper.CommandLine.exe
+RepositoryPath: G:/lol backup
+ProcessRandomly: false
+ValidateOne: true
+ValidateAll: false

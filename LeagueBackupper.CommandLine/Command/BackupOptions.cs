@@ -31,8 +31,8 @@ public class ExtractOptions : BaseOptions
     // [Option("patch-folder", Required = false, HelpText = "The folder for storage patch.")]
     // public required string PatchFolder { get; set; }
 
-    [Option('r',"repo-folder", Required = true, HelpText = "The folder for stori                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 b4444444444444444444444444430+ng all backup data.")]
-    public required string PatchBackupStorageFolder { get; set; }
+    [Option('r',"repo-folder for storing all backup data.")]
+    public required string RepoFolder { get; set; }
 
     [Option('o', "output-folder", Required = false, HelpText = "The folder for extract to.")]
     public required string OutputFolder { get; set; }
@@ -47,4 +47,18 @@ public class ExtractOptions : BaseOptions
     //     HelpText = "Specify the zip file/folder to provide data block read stream.")]
     // public required IEnumerable<string> DataBlockZipFiles { get; set; }
 
+}
+
+public class UpdateCheckOption
+{
+    [Option('r', Required = true,HelpText="repo-folder for storing all backup data.")]
+    public required string RepoFolder { get; set; }
+}
+public class RepoUpdateOption
+{
+    [Option('r', Required = true,HelpText="repo-folder for storing all backup data.")]
+    public required string RepoFolder { get; set; }
+    
+    [Option('v', HelpText="The destination version which you want to update to.")]
+    public required string DstVersion { get; set; }
 }

@@ -17,4 +17,10 @@
       <PackageReference Include="ZRUtils" Version="1.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="cfg.yaml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
