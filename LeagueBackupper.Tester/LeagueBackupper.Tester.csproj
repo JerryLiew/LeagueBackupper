@@ -21,6 +21,7 @@
       <None Update="cfg.yaml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Remove="info.log" />
     </ItemGroup>
 
 </Project>

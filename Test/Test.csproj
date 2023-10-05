@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\LeagueBackupper.Core\LeagueBackupper.Core.csproj" />
+      <ProjectReference Include="..\LeagueBackupper.Utility\LeagueBackupper.Utility.csproj" />
     </ItemGroup>
 
     <ItemGroup>

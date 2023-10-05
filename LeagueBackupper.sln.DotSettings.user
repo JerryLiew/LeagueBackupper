@@ -9,6 +9,7 @@
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;MSTest::0FA7ABD5-D1C4-418E-A8DB-B523727BCBD1::net8.0::Test.UnitTest1.TestMethod1&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;MSTest::0FA7ABD5-D1C4-418E-A8DB-B523727BCBD1::net8.0::Test.UnitTest1.TestMethod2&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::0FA7ABD5-D1C4-418E-A8DB-B523727BCBD1::net8.0::Test.UtilityTest.Test_SearchAndRenameClientParentFolderName&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">On</s:String>
