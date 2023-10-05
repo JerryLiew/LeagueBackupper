@@ -48,6 +48,7 @@ return Parser.Default.ParseArguments<BackupOptions, ExtractOptions, UpdateCheckO
 
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
+[DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(RepoInfo))]
 int Backup(BackupOptions options)
 {
     try

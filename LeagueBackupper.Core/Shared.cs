@@ -11,6 +11,7 @@ public static class Shared
 
     public static void LoadRepoInfo(string repoPath)
     {
+        _repoFolder = repoPath;
         if (!File.Exists(RepoInfoFileName))
         {
             throw new FileNotFoundException("InfoFilename: The given file doest not exist.");
@@ -19,9 +20,9 @@ public static class Shared
         string readAllText = File.ReadAllText(RepoInfoFileName);
         RepoInfo? repoInfo = JsonSerializer.Deserialize<RepoInfo>(readAllText);
         RepoInfo = repoInfo!;
-        if (RepoInfo.PatcheVersions == null)
+        if (RepoInfo.PatchVersions == null)
         {
-            RepoInfo.PatcheVersions = new List<string>();
+            RepoInfo.PatchVersions = new List<string>();
         }
     }
 

@@ -59,7 +59,7 @@ public class PatchBackupPipeline
 
         _patchFileDataStorager.Complete();
         _patchManager.RecordPatch(patchInfo);
-        Shared.RepoInfo.PatcheVersions.Add(clientVersion);
+        Shared.RepoInfo.PatchVersions.Add(clientVersion);
         Shared.SaveRepoInfo();
         Log.Info($"Backup Finished.TimeCost:{_timeCounter.Elapsed:mm\\mss\\s}");
     }
