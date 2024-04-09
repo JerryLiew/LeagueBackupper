@@ -23,7 +23,7 @@
         <FileVersion>$(Ver)</FileVersion>
         <Company>HardSoft</Company>
         <Authors>JerryLiew</Authors>
-        <Copyright>Copyright © Jerry 2023</Copyright>
+        <Copyright>Copyright © Jerry 2024</Copyright>
         <Product>LeagueBackupper.CommandLine</Product>
     </PropertyGroup>
 
