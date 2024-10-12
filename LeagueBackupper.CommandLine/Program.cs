@@ -96,6 +96,10 @@ int Backup(BackupOptions options)
     return 0;
 }
 
+ static int test()
+ {
+     return 1;
+ }
 int Extract(ExtractOptions options)
 {
     PatchExtractPipelineBuilder builder = new DefaultPatchExtractPipelineBuilder(
