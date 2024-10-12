@@ -18,7 +18,7 @@
         <!--产品版本-->
         <!--        <Version Condition=" '$(VersionSuffix)' == '' ">0.0.1.0</Version>-->
         <!--        <Version Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix)2</Version>-->
-        <Version Condition=" '$(Suffix)' == '' ">$(Ver)-456</Version>
+        <Version Condition=" '$(Suffix)' == '' ">$(Ver)</Version>
         <Version Condition=" '$(Suffix)' != '' ">$(Ver)-$(Suffix)</Version>
         <!--文件版本-->
         <FileVersion>$(Ver)</FileVersion>
