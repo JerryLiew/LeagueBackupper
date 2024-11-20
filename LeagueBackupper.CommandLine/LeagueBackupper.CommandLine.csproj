@@ -8,7 +8,7 @@
         <OutputType>Exe</OutputType>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 
-        <Ver>1.1.0</Ver>
+        <Ver>1.1.1</Ver>
 
         <!--        <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>-->
         <!--        <AssemblyVersion>1.0.0</AssemblyVersion>-->
