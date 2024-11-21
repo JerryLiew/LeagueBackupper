@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using LeagueBackupper.Core;
 
@@ -12,6 +13,7 @@ public class RepoUpdater
     {
         _repoPath = repoPath;
     }
+
     public void Init(string repoPath)
     {
         _repoPath = repoPath;
@@ -19,8 +21,9 @@ public class RepoUpdater
 
     public static Version GetCurVersion()
     {
-        return new Version("1.1.0.0");
+        return Assembly.GetEntryAssembly()!.GetName().Version!;
     }
+
     public Version GetRepoVersion()
     {
         bool exists = File.Exists(RepoInfoFilename);
@@ -38,7 +41,7 @@ public class RepoUpdater
         return new Version("1.1.1.0");
     }
 
-    
+
     public bool Update(Version dstVer)
     {
         return true;
