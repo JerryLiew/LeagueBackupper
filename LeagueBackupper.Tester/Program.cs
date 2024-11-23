@@ -1,8 +1,13 @@
-﻿using CommandLine;
+﻿using System.Globalization;
+using System.Text.Json;
+using CommandLine;
 using LeagueBackupper.Tester;
 using LeagueBackupper.Tester.Commands;
+using Microsoft.Win32.SafeHandles;
 using Serilog;
 using Serilog.Events;
+using ZRUtils;
+using ZRUtils.Extensions;
 
 public static class ValidateOutput
 {
@@ -42,12 +47,18 @@ internal class Program
             .WriteTo.File("info.log", LogEventLevel.Information)
             .WriteTo.File("err.log", LogEventLevel.Error)
             .CreateLogger();
-        var parserResult = Parser.Default.ParseArguments<ValidateOptions>(args);
+        var parserResult =
+            Parser.Default.ParseArguments<ValidateOptions, CreateCfgOptions, CollectClientsOptions>(args);
         await parserResult.MapResult(
             async (ValidateOptions o) =>
             {
                 var validate = await Validate(o);
                 return validate;
+            }, (CreateCfgOptions o) => { return Task.FromResult(1); },
+            (CollectClientsOptions o) =>
+            {
+                CollectClients(o);
+                return Task.FromResult(1);
             },
             errs => Task.FromResult(1));
     }
@@ -58,5 +69,26 @@ internal class Program
         // tester.CreateCfg();;
         tester.Run(options);
         return Task.FromResult(0);
+    }
+
+    static void CollectClients(CollectClientsOptions options)
+    {
+        var o = new { ClientFolders = new List<string>() { } };
+
+        FileTreeWalker walker = new FileTreeWalker(options.Directory);
+        foreach (var (root, dirs, files) in walker)
+        {
+            foreach (var file in files)
+            {
+                var substring = file.Substring(root.Length + 1);
+                if (substring == "League of Legends.exe")
+                {
+                    o.ClientFolders.Add(root);
+                }
+            }
+        }
+
+        var serialize = JsonSerializer.Serialize(o,new JsonSerializerOptions { WriteIndented = true });
+        Console.WriteLine(serialize);
     }
 }

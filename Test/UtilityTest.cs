@@ -9,9 +9,13 @@ public class UtilityTest
     [TestMethod]
     public void Test_SearchAndRenameClientParentFolderName()
     {
-        
         GameFolderUtility.SearchAndRenameClientParentFolderName("G:\\z2");
     }
-    
+
+    [TestMethod]
+    public void Unzip()
+    {
+        
+    }
     
 }

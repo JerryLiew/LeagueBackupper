@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using CommandLine;
@@ -53,6 +54,10 @@ int Backup(BackupOptions options)
 {
     try
     {
+        if (string.IsNullOrEmpty(options.ZipFile))
+        {
+        }
+
         var infoFile = Path.Join(options.RepoFolder, "info.json");
         if (!File.Exists(infoFile))
         {
@@ -96,10 +101,11 @@ int Backup(BackupOptions options)
     return 0;
 }
 
- static int test()
- {
-     return 1;
- }
+static int test()
+{
+    return 1;
+}
+
 int Extract(ExtractOptions options)
 {
     PatchExtractPipelineBuilder builder = new DefaultPatchExtractPipelineBuilder(
@@ -161,4 +167,13 @@ static int UpdateRepoVersion(RepoUpdateOption opts)
 
     Console.WriteLine("Repository update failed.");
     return 1;
+}
+
+// when backup, extract all client files first if the type of input is zipfile.
+static void Unzip(BackupOptions options)
+{
+    // need temp folder for extract all clintes
+    var tempClientFolder = Path.Join(options.TempFolder, "TempClient");
+    ZipArchive zipArchive = new ZipArchive(new FileStream(tempClientFolder, FileMode.Open), ZipArchiveMode.Read);
+    zipArchive.ExtractToDirectory(tempClientFolder, true);
 }

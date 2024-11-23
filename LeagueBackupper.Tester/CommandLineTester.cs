@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.Json;
 using CliWrap;
 using LeagueBackupper.Tester.Commands;
 using Serilog;
-using YamlDotNet.Serialization;
 
 namespace LeagueBackupper.Tester;
 
@@ -23,6 +21,9 @@ public class CommandLineTesterCfg
     public bool ValidateOne { get; set; } = true;
 
     public bool ValidateAll { get; set; } = true;
+
+    public string? ClientsZipFolder { get; set; }
+    public string? ClientUnzipTempFolder { get; set; }
 }
 
 public class CommandLineTester
@@ -40,16 +41,14 @@ public class CommandLineTester
     //     // File.WriteAllText("D:/testToml.toml", fromModel);
     // }
 
-    public void CreateCfg()
+    public void CreateCfg(string configFilePath)
     {
         CommandLineTesterCfg cfg = new CommandLineTesterCfg();
         cfg.CommandLineExePath = $"D:/{nameof(cfg.CommandLineExePath)}";
         cfg.ClientFolders = new() { "C:/folder1", "C:/folder2", "C:/folder3" };
         cfg.RepositoryPath = "D:/repositoryPath";
-        SerializerBuilder builder = new SerializerBuilder();
-        ISerializer serializer = builder.Build();
-        var serialize = serializer.Serialize(cfg);
-        File.WriteAllText("D:/testYaml.yaml", serialize);
+        string serialize = JsonSerializer.Serialize(cfg, new JsonSerializerOptions { WriteIndented = true });
+        File.WriteAllText(configFilePath, serialize);
     }
 
     private static List<string> ShuffleList(List<string> src)
@@ -70,19 +69,23 @@ public class CommandLineTester
     }
 
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidateOptions))]
-
     public void Run(ValidateOptions cfg)
     {
         string readAllText = File.ReadAllText(cfg.Cfg);
-        DeserializerBuilder builder = new DeserializerBuilder();
-        var deserializer = builder.Build();
-        Cfg = deserializer.Deserialize<CommandLineTesterCfg>(readAllText);
+
+        // Cfg = deserializer.Deserialize<CommandLineTesterCfg>(readAllText);
+        Cfg = JsonSerializer.Deserialize<CommandLineTesterCfg>(readAllText)!;
         List<string> clientsFolder = new List<string>(Cfg.ClientFolders);
         if (Cfg.ProcessRandomly)
         {
             clientsFolder = ShuffleList(clientsFolder);
         }
-        
+
+        if (!string.IsNullOrEmpty(Cfg.ClientsZipFolder))
+        {
+            clientsFolder.Clear();
+        }
+
         List<string> versions = new List<string>();
         foreach (var cf in clientsFolder)
         {
