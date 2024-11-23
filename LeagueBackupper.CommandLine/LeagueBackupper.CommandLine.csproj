@@ -7,7 +7,7 @@
         <Nullable>enable</Nullable>
         <OutputType>Exe</OutputType>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
-
+        <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
         <Ver>1.1.1</Ver>
 
         <!--        <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>-->

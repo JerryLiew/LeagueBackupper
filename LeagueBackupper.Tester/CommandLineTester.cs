@@ -143,7 +143,7 @@ public class CommandLineTester
         StringBuilder builder = new StringBuilder();
         Log.Information("Start backup {GameFolder}", clientFolder);
         CommandResult? commandResult = default;
-        var result = Cli
+        var c = Cli
             .Wrap(
                 command)
             .WithArguments(
@@ -155,10 +155,11 @@ public class CommandLineTester
                 })
             .WithStandardOutputPipe(PipeTarget.ToDelegate(s => { Log.Debug(s); }))
             .WithStandardErrorPipe(PipeTarget.ToDelegate(s => Log.Error(s)))
-            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(builder))
-            .ExecuteAsync().GetAwaiter().GetResult();
+            .WithStandardOutputPipe(PipeTarget.ToStringBuilder(builder));
+        var result =
+            c.ExecuteAsync().GetAwaiter().GetResult();
         // Console.WriteLine(builder.ToString());
-
+        Console.WriteLine(c.ToString());
         if (result.ExitCode == 0)
         {
             Log.Information("Backup gameFolder: {GameFolder} finished", clientFolder);

@@ -2,7 +2,7 @@
 
 namespace LeagueBackupper.Tester.Commands;
 
-[Verb(" validate", HelpText = "back up a league client patch.")]
+[Verb("validate", HelpText = "back up a league client patch.")]
 public class ValidateOptions
 {
     [Option('c', "config", Required = true, HelpText = "Config file.")]
