@@ -61,6 +61,8 @@ int Backup(BackupOptions options)
         var infoFile = Path.Join(options.RepoFolder, "info.json");
         if (!File.Exists(infoFile))
         {
+            Log.Information($"InfoFile {infoFile} does not exist");
+            Log.Information("Empty repository, initializing...");
             RepoInfo repoInfo = new RepoInfo();
             repoInfo.Version = RepoUpdater.GetCurVersion().ToString();
             string serialize = JsonSerializer.Serialize(repoInfo);
