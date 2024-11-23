@@ -65,6 +65,10 @@ int Backup(BackupOptions options)
             repoInfo.Version = RepoUpdater.GetCurVersion().ToString();
             string serialize = JsonSerializer.Serialize(repoInfo);
             File.WriteAllText(infoFile, serialize);
+
+            Directory.CreateDirectory(Path.Combine(options.RepoFolder, "chunksinfo"));
+            Directory.CreateDirectory(Path.Combine(options.RepoFolder, "data"));
+            Directory.CreateDirectory(Path.Combine(options.RepoFolder, "patches"));
         }
 
         Shared.LoadRepoInfo(options.RepoFolder);

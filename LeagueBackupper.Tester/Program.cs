@@ -54,7 +54,12 @@ internal class Program
             {
                 var validate = await Validate(o);
                 return validate;
-            }, (CreateCfgOptions o) => { return Task.FromResult(1); },
+            }, (CreateCfgOptions o) =>
+            {
+                CommandLineTester tester = new CommandLineTester();
+                tester.CreateCfg(o.Cfg);
+                return Task.FromResult(1);
+            },
             (CollectClientsOptions o) =>
             {
                 CollectClients(o);
