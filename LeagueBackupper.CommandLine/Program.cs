@@ -58,6 +58,7 @@ int Backup(BackupOptions options)
         {
         }
 
+        Console.WriteLine("来了");
         var infoFile = Path.Join(options.RepoFolder, "info.json");
         if (!File.Exists(infoFile))
         {
