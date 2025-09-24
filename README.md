@@ -34,7 +34,7 @@
 ### Backup  a game client 
 
 ```bash
-LeagueBackupper.Commandline.exe backup -g <game_root_folder_path> -b <repo_path>
+LeagueBackupper.Commandline.exe backup -g <game_root_folder_path> -r <repo_path>
 ```
 
 *game_root_folder_path: The root folder of a game client which you want to backup.*
@@ -46,7 +46,7 @@ LeagueBackupper.Commandline.exe backup -g <game_root_folder_path> -b <repo_path>
 ### Extract game client from your backup repository
 
 ```bash
-LeagueBackupper.Commandline.exe extract  -b <repo_path> -v <patch_version> -o <output>
+LeagueBackupper.Commandline.exe extract  -r <repo_path> -v <patch_version> -o <output>
 ```
 
 repo_path: The folder of your repository used to storage the backed data.
@@ -60,7 +60,7 @@ output: The destination folder which you want to storage all the extracted clien
 ### Validate game client 
 
 ```bash
-LeagueBackupper.Commandline.exe extract  -b <repo_path> -v <patch_version> --validate-only
+LeagueBackupper.Commandline.exe extract  -r <repo_path> -v <patch_version> --validate-only
 ```
 
 the same as extract game client  but it will not extract the file, but only verify whether the all client file are correct
