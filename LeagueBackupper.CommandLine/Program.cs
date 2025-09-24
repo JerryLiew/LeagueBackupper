@@ -54,11 +54,12 @@ int Backup(BackupOptions options)
 {
     try
     {
-        if (string.IsNullOrEmpty(options.ZipFile))
+        if (!Directory.Exists(options.RepoFolder))
         {
+            Log.Information($"RepoFolder {options.RepoFolder} does not exist. Creating directory...");
+            Directory.CreateDirectory(options.RepoFolder);
         }
 
-        Console.WriteLine("来了");
         var infoFile = Path.Join(options.RepoFolder, "info.json");
         if (!File.Exists(infoFile))
         {

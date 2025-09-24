@@ -25,7 +25,6 @@ public class PatchBackupPipeline
     public void Backup()
     {
         //get client information.
-        File.WriteAllText("D:/text.txt","dsafa");
         Log.Info("Start backup.");
         _timeCounter.Start();
         var clientVersion = _clientDataProvider.GetClientVersion();
