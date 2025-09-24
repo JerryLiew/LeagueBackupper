@@ -28,10 +28,10 @@
 - 13.3.491.6222
 
 ### The original size of all these versions of client is about  311 GB,and after backup processing, all files are only 28GB in size, a total reduction of 91% in size
-
+ **current status: I have personally used this tool to back up most versions from v12.xxx to v15.xxx, and it has worked very well.**
 ## Usage
 
-### Backup  a game client 
+### Backup a game client 
 
 ```bash
 LeagueBackupper.Commandline.exe backup -g <game_root_folder_path> -r <repo_path>
