@@ -20,9 +20,9 @@
         <Version Condition=" '$(Suffix)' != '' ">$(Ver)-$(Suffix)</Version>
         <!--文件版本-->
         <FileVersion>$(Ver)</FileVersion>
-        <Company>HardSoft</Company>
+        <Company>MajorPunk</Company>
         <Authors>JerryLiew</Authors>
-        <Copyright>Copyright © Jerry 2024</Copyright>
+        <Copyright>Copyright © JerryLiew 2025</Copyright>
         <Product>LeagueBackupper.CommandLine</Product>
         <NoWarn>$(NoWarn);CS8602</NoWarn>
     </PropertyGroup>
