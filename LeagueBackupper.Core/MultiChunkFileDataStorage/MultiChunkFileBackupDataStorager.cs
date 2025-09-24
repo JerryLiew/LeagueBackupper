@@ -100,7 +100,34 @@ public class DefaultPathDataStorager : PatchFileDataStorager
 
         chunksSizeInfo = chunksSizeInfo.Distinct(new IEC()).ToList();
         List<(long offset, long len)> dataBlockSegmentDef = new();
-        chunksSizeInfo.Sort((left, right) => { return (int)(left.Item1 - right.Item1); });
+        chunksSizeInfo.Sort((left, right) =>
+        {
+            //确保,当offset一样时, len小的在前面,具体原因看下面的note
+            if (left.Item1 == right.Item1)
+            {
+                return left.Item2 - right.Item2;
+            }
+
+            return (int)(left.Item1 - right.Item1);
+        });
+        // for (var index = 0; index < chunksSizeInfo.Count; index++)
+        // {
+        //     var (offset, len) = chunksSizeInfo[index];
+        //     if (index == chunksSizeInfo.Count - 1)
+        //     {
+        //         break;
+        //     }
+        //
+        //     var next = chunksSizeInfo[index + 1];
+        //     if (offset + len > next.Item1)
+        //     {
+        //         if (offset != next.Item1)
+        //         {
+        //             Console.WriteLine("Fatal Error!!!! chunks offset overlapped!!!");
+        //         }
+        //     }
+        // }
+
         for (var index = 0; index < chunksSizeInfo.Count; index++)
         {
             var (offset, len) = chunksSizeInfo[index];
@@ -140,6 +167,9 @@ public class DefaultPathDataStorager : PatchFileDataStorager
                 if (index < count - 1)
                 {
                     var (nextChunkOffset, nextChunkLen) = chunksSizeInfo[index + 1];
+                    //note:前面虽然根据offset和len进行了去重,但是有时候, 会有重复的chunk块,且两个chunk块长度不一致  例如:  连续的两个 chunk1: offset: 20 ,len: 15 ,  chunk2: offset: 20 ,len: 0(空文件). ,然后就会导致, 计算chunk2 与 chunk3 之前的gap数据时, 
+                    // nextChunkOffset - offset - len 这里的len是0, 从而得到错误的结果大于0.  但是实际上应该用chunk1的offset和 len计算.
+                    //  解决方案是, 排序时, 先根据offset排序, 然后根据len排序.使得长的一定在后面. 从而不会错误的添加gap数据
                     var dataLenBetweenTwoChunks = nextChunkOffset - offset - len;
                     if (dataLenBetweenTwoChunks > 0)
                     {

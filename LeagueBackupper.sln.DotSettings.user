@@ -17,8 +17,8 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=SpellingFilter/@EntryIndexedValue">On</s:String>
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=NamingFilter/@EntryIndexedValue">On</s:String>
-	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=CodeStyle/@EntryIndexedValue">On</s:String>
-	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">WARNING</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/FiltersState/=CodeStyle/@EntryIndexedValue">Off</s:String>
+	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">ERROR</s:String>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CWorkSpace_005CC_0023_005CLeagueVCS_005C3rdparty_005CLeagueToolkit_005CBCnEncoder_002Edll/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CWorkSpace_005CC_0023_005CLeagueVCS_005CLeagueVCS_002ECore_005CLeagueToolkit_002Edll/@EntryIndexedValue">True</s:Boolean>
 	</wpf:ResourceDictionary>

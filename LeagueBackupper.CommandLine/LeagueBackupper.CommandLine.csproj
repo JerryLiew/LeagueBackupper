@@ -5,6 +5,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <WarningsAsErrors>Nullable</WarningsAsErrors>
         <OutputType>Exe</OutputType>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
         <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
@@ -23,6 +24,7 @@
         <Authors>JerryLiew</Authors>
         <Copyright>Copyright © Jerry 2024</Copyright>
         <Product>LeagueBackupper.CommandLine</Product>
+        <NoWarn>$(NoWarn);CS8602</NoWarn>
     </PropertyGroup>
 
     <!--    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">-->
@@ -34,25 +36,25 @@
     <!--    </PropertyGroup>-->
 
     <ItemGroup>
-        <ProjectReference Include="..\LeagueBackupper.Core\LeagueBackupper.Core.csproj" />
+        <ProjectReference Include="..\LeagueBackupper.Core\LeagueBackupper.Core.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="CommandLineParser" Version="2.9.1" />
-        <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0-preview2" />
-        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4" />
-        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+        <PackageReference Include="CommandLineParser" Version="2.9.1"/>
+        <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0-preview2"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="8.0.4"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
+        <PackageReference Include="Serilog.Sinks.File" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <TrimmerRootAssembly Include="LeagueBackupper.CommandLine" />
-        <TrimmerRootAssembly Include="LeagueBackupper.Core" />
+        <TrimmerRootAssembly Include="LeagueBackupper.CommandLine"/>
+        <TrimmerRootAssembly Include="LeagueBackupper.Core"/>
     </ItemGroup>
-    
-    
+
+
     <ItemGroup>
-        <Compile Remove="Test.cs" />
+        <Compile Remove="Test.cs"/>
     </ItemGroup>
 
 </Project>
