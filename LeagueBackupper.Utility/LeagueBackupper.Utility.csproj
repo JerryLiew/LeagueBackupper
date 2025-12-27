@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="ZRUtils" Version="1.0.3" />
+      <PackageReference Include="ZRUtils" Version="1.0.5" />
     </ItemGroup>
 
 </Project>

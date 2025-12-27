@@ -1,10 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO.Compression;
 using System.Text;
 using System.Text.Json;
 using CliWrap;
 using LeagueBackupper.Tester.Commands;
+using LeagueBackupper.Utility;
 using Serilog;
+using ZRUtils.Zip;
 
 namespace LeagueBackupper.Tester;
 
@@ -69,11 +72,86 @@ public class CommandLineTester
     }
 
     [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidateOptions))]
+    public void Run2(ValidateOptions cfg)
+    {
+        string readAllText = File.ReadAllText(cfg.Cfg);
+        Cfg = JsonSerializer.Deserialize<CommandLineTesterCfg>(readAllText)!;
+        BackupTaskCollector collector = new BackupTaskCollector();
+        List<BackupTask> backupTasks = collector.Collect(Cfg.ClientsZipFolder);
+
+        foreach (var task in backupTasks)
+        {
+            string path = task.Path;
+            Log.Information("Start processing: {task}", task);
+
+            if (task.Type is TaskType.Zipped)
+            {
+                //clear temp folder and unzip first
+                DirectoryInfo di = new DirectoryInfo(Cfg.ClientUnzipTempFolder);
+                var dirs = di.EnumerateDirectories().ToList();
+                foreach (var enumerateDirectory in dirs)
+                {
+                    Directory.Delete(enumerateDirectory.FullName, true);
+                    Log.Information("Delete: {path}", enumerateDirectory.FullName);
+                }
+
+                Log.Information("Start unzip: {path}", path);
+                ZipFile.ExtractToDirectory(File.OpenRead(path), Cfg.ClientUnzipTempFolder);
+                path = Utility.ClientUtility.FindClientFolder(Cfg.ClientUnzipTempFolder);
+                Log.Information("Unzip completed: {path}", path);
+            }
+
+            string exeFilename = Path.Combine(path, ClientUtility.LolExeName);
+            int backup = Backup(Cfg.CommandLineExePath, path, Cfg.RepositoryPath);
+            if (backup == 0)
+            {
+                ValidateOutput.Ok($"backup:{path}");
+            }
+            else
+            {
+                ValidateOutput.Err($"backup:{path}");
+            }
+
+            if (Cfg.ValidateOne)
+            {
+                int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoryPath, task.PatchVersion);
+                if (validateResult == 0)
+                {
+                    ValidateOutput.Ok($"validate-one:{task.PatchVersion}");
+                    Log.Information("validate-one success! version:{Version}", task.PatchVersion);
+                }
+                else
+                {
+                    ValidateOutput.Err($"validate-one:{task.PatchVersion}");
+                    Log.Error("validate-one failed! version:{Version}", task.PatchVersion);
+                }
+            }
+        }
+
+        ValidateOutput.Ok($"backup completed.");
+        // if (Cfg.ValidateAll)
+        // {
+        // foreach (var ver in task)
+        // {
+        // int validateResult = Validate(Cfg.CommandLineExePath, Cfg.RepositoryPath, ver);
+        // if (validateResult == 0)
+        // {
+        // ValidateOutput.Ok($"validate-all:{ver}");
+        // Log.Information("validate-all success! version:{Version}", ver);
+        // }
+        // else
+        // {
+        // ValidateOutput.Err($"validate-all:{ver}");
+        // Log.Error("validate-all failed! version:{Version}", ver);
+        // }
+        // }
+        // }
+    }
+
+    [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ValidateOptions))]
     public void Run(ValidateOptions cfg)
     {
         string readAllText = File.ReadAllText(cfg.Cfg);
-
-        // Cfg = deserializer.Deserialize<CommandLineTesterCfg>(readAllText);
         Cfg = JsonSerializer.Deserialize<CommandLineTesterCfg>(readAllText)!;
         List<string> clientsFolder = new List<string>(Cfg.ClientFolders);
         if (Cfg.ProcessRandomly)

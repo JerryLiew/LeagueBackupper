@@ -1,0 +1,14 @@
+{
+  "ClientFolders": [
+    "C:/folder1",
+    "C:/folder2",
+    "C:/folder3"
+  ],
+  "CommandLineExePath": "C:/Users/10670/Desktop/lol_tools_package/backupper/LeagueBackupper.CommandLine.exe",
+  "RepositoryPath": "G://temp//repo",
+  "ProcessRandomly": false,
+  "ValidateOne": true,
+  "ValidateAll": false,
+  "ClientsZipFolder": "G://lol//BackuppedClients",
+  "ClientUnzipTempFolder": "I://temp"
+}

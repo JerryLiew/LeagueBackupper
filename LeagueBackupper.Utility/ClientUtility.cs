@@ -4,8 +4,34 @@ using ZRUtils.Extensions;
 
 namespace LeagueBackupper.Utility;
 
-public static class GameFolderUtility
+public static class ClientUtility
 {
+   public const string LolExeName = "League of Legends.exe";
+    public static string? GetPatchVersion(string fileName)
+    {
+        if (fileName != LolExeName)
+        {
+            return null;
+        }
+        return FileVersionInfo.GetVersionInfo(fileName).ProductVersion;
+    }
+    public static string? FindClientFolder(string folderToSearch)
+    { 
+        FileTreeWalker walker = new FileTreeWalker(folderToSearch,false);
+        foreach (var (root, folders, files) in walker)
+        {
+            foreach (var f in files)
+            {
+                if (f == LolExeName)
+                {
+                    return root;
+                }
+            }
+        }
+
+        return null;
+    }
+    
     public static void SearchAndRenameClientParentFolderName(string folderToSearch)
     {
         var tuples = OSUtils.Walk(folderToSearch);

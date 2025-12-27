@@ -72,7 +72,7 @@ internal class Program
     {
         CommandLineTester tester = new CommandLineTester();
         // tester.CreateCfg();;
-        tester.Run(options);
+        tester.Run2(options);
         return Task.FromResult(0);
     }
 

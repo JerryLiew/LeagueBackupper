@@ -3,13 +3,13 @@
 namespace Test;
 
 [TestClass]
-public class UtilityTest
+public class ClientUtilityTest
 {
 
     [TestMethod]
     public void Test_SearchAndRenameClientParentFolderName()
     {
-        GameFolderUtility.SearchAndRenameClientParentFolderName("G:\\z2");
+        ClientUtility.SearchAndRenameClientParentFolderName("G:\\z2");
     }
 
     [TestMethod]
