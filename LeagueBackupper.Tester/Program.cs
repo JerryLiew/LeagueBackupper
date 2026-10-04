@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text.Json;
 using CommandLine;
 using LeagueBackupper.Tester;
@@ -32,6 +32,11 @@ public static class ValidateOutput
     public static void Err(string msg)
     {
         OutputResult($"ERR | {msg}");
+    }
+
+    public static void Skip(string msg)
+    {
+        OutputResult($"SKIP| {msg}");
     }
 }
 

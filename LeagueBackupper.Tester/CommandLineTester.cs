@@ -54,6 +54,36 @@ public class CommandLineTester
         File.WriteAllText(configFilePath, serialize);
     }
 
+    private bool IsVersionAlreadyBackedUp(string repoPath, string version)
+    {
+        string infoFile = Path.Combine(repoPath, "info.json");
+        if (!File.Exists(infoFile))
+        {
+            return false;
+        }
+
+        try
+        {
+            string json = File.ReadAllText(infoFile);
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (root.TryGetProperty("PatchVersions", out var versionsArr))
+            {
+                foreach (var v in versionsArr.EnumerateArray())
+                {
+                    if (v.GetString() == version)
+                        return true;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.Warning(ex, "Failed to read repo info.json");
+        }
+
+        return false;
+    }
+
     private static List<string> ShuffleList(List<string> src)
     {
         Random random = new Random();
@@ -84,6 +114,13 @@ public class CommandLineTester
             string path = task.Path;
             Log.Information("Start processing: {task}", task);
 
+            if (IsVersionAlreadyBackedUp(Cfg.RepositoryPath, task.PatchVersion))
+            {
+                ValidateOutput.Skip($"skip (already exists): {task.PatchVersion}");
+                Log.Information("Skip backup/validate for version {Version} - already in repo", task.PatchVersion);
+                continue;
+            }
+
             if (task.Type is TaskType.Zipped)
             {
                 //clear temp folder and unzip first
@@ -102,6 +139,7 @@ public class CommandLineTester
             }
 
             string exeFilename = Path.Combine(path, ClientUtility.LolExeName);
+
             int backup = Backup(Cfg.CommandLineExePath, path, Cfg.RepositoryPath);
             if (backup == 0)
             {
@@ -171,6 +209,14 @@ public class CommandLineTester
             string exeFilename = Path.Combine(cf, "League of Legends.exe");
             FileVersionInfo version = FileVersionInfo.GetVersionInfo(exeFilename);
             versions.Add(version.ProductVersion!);
+
+            if (IsVersionAlreadyBackedUp(Cfg.RepositoryPath, version.ProductVersion!))
+            {
+                ValidateOutput.Skip($"skip (already exists): {version.ProductVersion}");
+                Log.Information("Skip backup/validate for version {Version} - already in repo", version.ProductVersion);
+                continue;
+            }
+
             int backup = Backup(Cfg.CommandLineExePath, cf, Cfg.RepositoryPath);
             if (backup == 0)
             {

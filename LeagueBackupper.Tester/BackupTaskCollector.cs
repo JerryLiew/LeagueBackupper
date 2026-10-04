@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 using LeagueBackupper.Utility;
 using ZRUtils;
 using ZRUtils.Extensions;
@@ -34,7 +34,7 @@ public class BackupTaskCollector
                 if (file.EndsWith(".zip") && regex.IsMatch(fileName))
                 {
                     BackupTask t = new BackupTask();
-                    t.PatchVersion = fileName;
+                    t.PatchVersion = regex.Match(fileName).Value;
                     t.Path = file;
                     t.Type = TaskType.Zipped;
                     result.Add(t);
