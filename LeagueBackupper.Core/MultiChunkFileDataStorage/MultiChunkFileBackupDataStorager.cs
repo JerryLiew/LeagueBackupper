@@ -73,14 +73,14 @@ public class DefaultPathDataStorager : PatchFileDataStorager
 
     #region Private Method
 
-    class IEC : IEqualityComparer<(long, int)>
+    class IEC : IEqualityComparer<(long, long)>
     {
-        public bool Equals((long, int) x, (long, int) y)
+        public bool Equals((long, long) x, (long, long) y)
         {
             return x.Item1 == y.Item1 && x.Item2 == y.Item2;
         }
 
-        public int GetHashCode((long, int) obj)
+        public int GetHashCode((long, long) obj)
         {
             return HashCode.Combine(obj.Item1, obj.Item2);
         }
@@ -88,8 +88,8 @@ public class DefaultPathDataStorager : PatchFileDataStorager
 
     private MultiChunkFileInfo ProcessWadFile(PatchFileInfo vf, Stream stream)
     {
-        WadFile wadFile = new WadFile(stream);
-        List<(long, int)> chunksSizeInfo = new List<(long, int)>();
+        WadFile wadFile = new WadFile(stream as FileStream);
+        List<(long, long)> chunksSizeInfo = new List<(long, long)>();
 
         foreach (var chunk in wadFile.Chunks.Values)
         {
@@ -103,12 +103,8 @@ public class DefaultPathDataStorager : PatchFileDataStorager
         chunksSizeInfo.Sort((left, right) =>
         {
             //确保,当offset一样时, len小的在前面,具体原因看下面的note
-            if (left.Item1 == right.Item1)
-            {
-                return left.Item2 - right.Item2;
-            }
-
-            return (int)(left.Item1 - right.Item1);
+            int offsetCompare = left.Item1.CompareTo(right.Item1);
+            return offsetCompare != 0 ? offsetCompare : left.Item2.CompareTo(right.Item2);
         });
         // for (var index = 0; index < chunksSizeInfo.Count; index++)
         // {

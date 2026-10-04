@@ -90,7 +90,7 @@ int Backup(BackupOptions options)
     catch (Exception e)
     {
         Console.WriteLine(e.Message);
-        Log.Error(e.Message);
+        Log.Error("Backup error:",e.Message);
         return 0;
     }
 
