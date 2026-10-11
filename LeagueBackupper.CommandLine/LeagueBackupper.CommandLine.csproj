@@ -9,7 +9,7 @@
         <OutputType>Exe</OutputType>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
         <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
-        <Ver>1.2.2</Ver>
+        <Ver>1.3.2</Ver>
         <FileVersion>$(Ver)</FileVersion>
 
         <!--        <VersionSuffix>1.0.0.$([System.DateTime]::UtcNow.ToString(mmff))</VersionSuffix>-->
@@ -22,7 +22,7 @@
         <!--文件版本-->
         <Company>MajorPunk</Company>
         <Authors>JerryLiew</Authors>
-        <Copyright>Copyright © JerryLiew 2025</Copyright>
+        <Copyright>Copyright © MajorPunk 2026</Copyright>
         <Product>LeagueBackupper.CommandLine</Product>
         <NoWarn>$(NoWarn);CS8602</NoWarn>
     </PropertyGroup>
