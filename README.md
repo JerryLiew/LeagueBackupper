@@ -1,76 +1,52 @@
 # LeagueBackupper
 
-## A tool that aims to backup different versions of the League of Legends client in the smallest possible size.
+A tool for backing up multiple versions of the League of Legends client with minimal disk footprint.
 
-## The principle of this tool is to reduce disk usage by only saving the differences between different versions of game client files, and to fully restore the original files when needed
+## How it works
 
-### In my testing, I tested the following 20 versions of game client (Chinese version)
+LeagueBackupper stores only the **differences** between client versions, rather than duplicating every identical file for each version. When you need a specific version, it fully reconstructs the original client from the stored data.
 
-- 11.23.409.567 
-- 11.24.412.2185
-- 12.1.414.4249 
-- 12.11.446.9344
-- 12.12.448.6653
-- 12.13.453.3037
-- 12.14.456.5556
-- 12.15.458.1365
-- 12.18.468.1686
-- 12.19.471.6581
-- 12.2.419.1399
-- 12.2.419.4793
-- 12.22.479.3960
-- 12.23.483.5656
-- 12.6.432.1258
-- 12.7.433.4138
-- 12.9.439.7639
-- 12.9.440.3307
-- 13.1.487.9641
-- 13.3.491.6222
-
-### The original size of all these versions of client is about  311 GB,and after backup processing, all files are only 28GB in size, a total reduction of 91% in size
- **current status: I have personally used this tool to back up most versions from v12.xxx to v15.xxx, and it has worked very well.**
 ## Usage
 
-### Backup a game client 
+### Backup a game client
 
 ```bash
 LeagueBackupper.Commandline.exe backup -g <game_root_folder_path> -r <repo_path>
 ```
 
-*game_root_folder_path: The root folder of a game client which you want to backup.*
+- `<game_root_folder_path>`: The root folder of the game client you want to back up.
+- `<repo_path>`: The folder where your backup repository stores the backed-up data.
 
-*repo_path: The folder of your repository used to storage the backed data.*
-
-
-
-### Extract game client from your backup repository
+### Extract a game client from your repository
 
 ```bash
-LeagueBackupper.Commandline.exe extract  -r <repo_path> -v <patch_version> -o <output>
+LeagueBackupper.Commandline.exe extract -r <repo_path> -v <patch_version> -o <output>
 ```
 
-repo_path: The folder of your repository used to storage the backed data.
+- `<repo_path>`: The folder where your backup repository is stored.
+- `<patch_version>`: The game version you want to extract.
+- `<output>`: The destination folder where the extracted client files will be placed (this becomes the root directory of the game).
 
-*patch_version: The game version which you want to extract from the repo.*
-
-output: The destination folder which you want to storage all the extracted client files. (It's actually the root directory of the game)
-
-
-
-### Validate game client 
+### Validate a backed-up client
 
 ```bash
-LeagueBackupper.Commandline.exe extract  -r <repo_path> -v <patch_version> --validate-only
+LeagueBackupper.Commandline.exe extract -r <repo_path> -v <patch_version> --validate-only
 ```
 
-the same as extract game client  but it will not extract the file, but only verify whether the all client file are correct
+Same as `extract`, but does not write any files — it only verifies that all backed-up client files are intact and correct.
 
 
 
 ## Libraries
 
-- [LeagueTookit](https://github.com/LeagueToolkit/LeagueToolkit)   LeagueToolkit is a library for parsing and editing assets from League of Legends.In my project i use it to parse wad files of lol game client
+- [LeagueToolkit](https://github.com/LeagueToolkit/LeagueToolkit) — a library for parsing and editing League of Legends assets. Used here to parse WAD files in the game client.
 
-## NOTE:
+## Known Issues
 
-This software has been tested in many game versions, but there is still no guarantee that in future new versions, the backup will fail due to changes made by RIOT Game . Therefore, after backing up your game client files, please do not delete the original files first. Please execute the Validate command or test yourself before deleting the original files
+- **Slow backup / extraction speed.** Due to the current implementation, backup and extraction operations are relatively slow. When working with a large repository, please be patient and allow the process to complete.
+
+## ⚠️ Note
+
+Although this tool has been tested across many game versions, Riot Games may introduce changes in future updates that could cause the backup process to fail.
+
+**After backing up your game client, do not delete the original files first.** Run the `validate` command (or manually test the extracted client) before removing the original.
