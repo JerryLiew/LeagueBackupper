@@ -39,13 +39,15 @@ foreach (var s in args)
 // Shared.RepoInfo.PatcheVersions.Add("12.23.467.456");
 // Shared.SaveRepoInfo();
 
-return Parser.Default.ParseArguments<BackupOptions, ExtractOptions, UpdateCheckOption>(args)
+int ret = Parser.Default.ParseArguments<BackupOptions, ExtractOptions, UpdateCheckOption>(args)
     .MapResult(
         (BackupOptions opts) => Backup(opts),
         (ExtractOptions opts) => Extract(opts),
         (UpdateCheckOption opts) => UpdateCheck(opts),
         (RepoUpdateOption opts) => UpdateRepoVersion(opts),
         errs => 1);
+Log.CloseAndFlush();
+return ret;
 
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(BackupOptions))]
 [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(ExtractOptions))]
@@ -90,9 +92,9 @@ int Backup(BackupOptions options)
     catch (Exception e)
     {
         Console.WriteLine(e.Message);
-        Log.Error("Backup error:",e.Message);
+        Log.Error("Backup error:{0}", e);
         return 0;
-    }
+    }   
 
     /*//not use cfg file.
         ClientDataProvider clientDataProvider =
